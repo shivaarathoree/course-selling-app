@@ -6,7 +6,7 @@ const {courseRouter} = require("./routes/course");
 
 
 
-app.use("/user", userRouter);
+app.use("/user", userRouter);//thats how we use routers 
 app.use("/course",  courseRouter);
 
 
