@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 const user = require("./routes/user");
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
-console.log("conntected to mongoose")
-mongoose.connect("mongodb+srv://shivarathore282004_db_user:g0KZkFF6eBKa0LSM@cluster0.zstvmvs.mongodb.net/coursera-app");
 
 const userSchema = new Schema({
     email: {
