@@ -1,15 +1,36 @@
 const express = require("express");
 const Router = express.Router;
 const adminRouter= Router();
-
+const jwt= require("jsonwebtoken");
+const JWT_ADMIN_PASSWORD = "adminaladin";
 const {adminModel} = require("../db");
 
 
-adminRouter.post("/signup", (req, res) => {
+adminRouter.post("/signup", async (req, res) => {
+    const {email, password, firstname, lastname} = req.body;
+
+    await adminModel.create({email, password, firstname, lastname});
+
+
     res.json({ message: "signup successful" });
 });
 
-adminRouter.post("/signin", (req, res) => {
+
+adminRouter.post("/signin", async (req, res) => {
+
+    const {email, password} = req.body;
+
+    const admin = await adminModel.findOne({email, password});
+    if(admin)
+    {
+        const token = jwt.sign({id: admin._id}, JWT_ADMIN_PASSWORD);
+
+        res.json({token});
+    }
+    else
+    {
+        res.status(403).json({message: "Invalid Credentials"});
+    }
     res.json({ message: "signin successful" });
 });
 
