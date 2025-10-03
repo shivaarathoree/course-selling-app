@@ -62,7 +62,7 @@ adminRouter.put("/course", adminMiddleware, async (req, res) => {
 
     res.json({ 
                 message: "course UPDATED successfully" ,
-                courseId: course._id
+                courseId: courseId
             });
 });
 
@@ -73,7 +73,9 @@ adminRouter.get("/course/bulk", adminMiddleware, async (req, res) => {
     const adminId = req.adminId;
 
     const courses = await courseModel.find({creatorId: adminId});
-    res.json({ message: "here you can see all the courses since you are an admin" });
+    res.json({ message: "here you can see all the courses since you are an admin",
+        courses: courses
+     });
 });
     
 
