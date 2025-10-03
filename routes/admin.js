@@ -37,7 +37,7 @@ adminRouter.post("/signin", async (req, res) => {
 
 adminRouter.post("/course",adminMiddleware, async (req, res) => {
     const adminId = req.adminId;
-
+    const {title, description, price, imageUrl} = req.body;
     const course=await courseModel.create({title, description, price, imageUrl, creatorId: adminId});
 
     res.json({ 
@@ -46,12 +46,36 @@ adminRouter.post("/course",adminMiddleware, async (req, res) => {
             });
 });
 
-adminRouter.put("/course", (req, res) => {
-    res.json({ message: "" });
+adminRouter.put("/course", adminMiddleware, async (req, res) => {
+    const adminId = req.adminId;
+    const {title, description, price, imageUrl,courseId} = req.body;
+    
+    const course = await courseModel.updateOne({
+        _id: courseId,
+        creatorId: adminId
+    },{
+        title: title,
+        description: description,
+        price: price,
+        imageUrl: imageUrl,
+    });
+
+    res.json({ 
+                message: "course UPDATED successfully" ,
+                courseId: course._id
+            });
 });
-adminRouter.get("/course", (req, res) => {
+
+
+
+
+adminRouter.get("/course/bulk", adminMiddleware, async (req, res) => {
+    const adminId = req.adminId;
+
+    const courses = await courseModel.find({creatorId: adminId});
     res.json({ message: "here you can see all the courses since you are an admin" });
 });
+    
 
 module.exports ={
  adminRouter:adminRouter
