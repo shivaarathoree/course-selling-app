@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const {JWT_USER_PASSWORD}= require("../config");
 const { userModel} = require("../db");
 const { userMiddleware } = require("../middlewares/user");
+const { purchaseModel } = require("../db");
 
 userRouter.post("/signup", async (req, res) => {
     const {email, password, firstname, lastname} = req.body;
@@ -38,7 +39,7 @@ userRouter.post("/signin",async (req, res) => {
 
 userRouter.get("/purchases", userMiddleware, async (req, res) => {
     const userId = req.userId;
-
+    
     const purchases=await purchaseModel.find({userId});
     res.json({ purchases });
 });

@@ -7,7 +7,8 @@ const courseRouter= Router();
 
 
 courseRouter.post("/purchase", userMiddleware, async (req, res) => {
-    const {userId, courseId} = req.body;
+    const userId = req.userId;
+    const {courseId} = req.body.courseId;
     //expecting the user to pay for the course
     await purchaseModel.create({userId, courseId});
     res.json({ message: "you have successfully bought the course" });
